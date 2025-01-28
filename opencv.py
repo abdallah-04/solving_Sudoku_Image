@@ -7,7 +7,7 @@ from PIL import Image
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Load the image
-img_path = r"C:\my_python_project\Sudoku_Puzzle_by_L2G-20050714_standardized_layout.svg.png"
+img_path = r"C:\my_python_project\solving_Sudoku_Image\Sudoku_Puzzle_by_L2G-20050714_standardized_layout.svg.png"
 img = cv2.imread(img_path)
 
 if img is None:
