@@ -17,7 +17,7 @@ if img is None:
 img = cv2.resize(img, (500, 500), interpolation=cv2.INTER_CUBIC)
 #cv2.imshow('Original Image', img)
 
-# Convert to grayscale and threshold
+
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 _, binary = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY_INV)
 
@@ -31,12 +31,12 @@ horizontal_lines = cv2.morphologyEx(binary, cv2.MORPH_OPEN, horizontal_kernel, i
 grid_lines = cv2.add(vertical_lines, horizontal_lines)
 #cv2.imshow('Detected Grid Lines', grid_lines)
 
-# Remove grid lines using inpainting
+
 mask = cv2.bitwise_not(grid_lines)
 result = cv2.inpaint(img, grid_lines, 3, cv2.INPAINT_TELEA)
 #cv2.imshow("Image Without Grid Lines", result)
 
-# Convert to grayscale for OCR
+
 result_gray = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
 result_gray = cv2.GaussianBlur(result_gray, (3, 3), 0)
 _, result_gray = cv2.threshold(result_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -51,13 +51,13 @@ sudoku_grid = []
 for y in range(0, result_gray.shape[0], cell_size):  # Rows
     row = []
     for x in range(0, result_gray.shape[1], cell_size):  # Columns
-        # Crop the cell
+      
         cell = result_gray[y:y + cell_size, x:x + cell_size]
 
-        # Perform OCR on the cell
+     
         try:
             ocr_result = pytesseract.image_to_string(cell, config='--psm 10')  
-            ocr_result = ocr_result.strip()  # Remove whitespace
+            ocr_result = ocr_result.strip()  
             if ocr_result.isdigit(): 
                 row.append(int(ocr_result))
             else:
